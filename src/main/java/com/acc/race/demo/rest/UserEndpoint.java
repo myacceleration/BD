@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -19,8 +20,15 @@ public class UserEndpoint {
 
     @GET
     @Produces("application/json")
-    public List<User> getUsers() {
-        return userRepo.findAll();
+    public Response getUserByLogin(@QueryParam("login")String login) {
+        if( login == null) {
+            System.out.println(".............Login: " + login);
+            return Response.ok(userRepo.findAll()).build();
+        } else {
+            System.out.println(".............Login: " + login);
+            User u = userRepo.findByLogin(login);
+            return Response.ok(u).build();
+        }
     }
 
     @PUT
@@ -31,6 +39,9 @@ public class UserEndpoint {
         }
         if(u.getName() != null && u.getName().length() < 3) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Nazwa powinna miec 3 znaki").build();
+        }
+        if(u.getPassword() != null && u.getPassword().length() < 3) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Haslo powinno miec 3 znaki").build();
         }
         if(userRepo.findByLogin(u.getLogin()) != null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login juz istnieje").build();
