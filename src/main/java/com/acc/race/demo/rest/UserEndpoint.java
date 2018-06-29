@@ -21,17 +21,20 @@ public class UserEndpoint {
     @GET
     @Produces("application/json")
     public Response getUserByLogin(@QueryParam("login")String login) {
+        System.out.println(".............Login: " + login);
         if( login == null) {
-            System.out.println(".............Login: " + login);
             return Response.ok(userRepo.findAll()).build();
         } else {
-            System.out.println(".............Login: " + login);
             User u = userRepo.findByLogin(login);
-            return Response.ok(u).build();
+            if(u == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            } else {
+                return Response.ok(u).build();
+            }
         }
     }
 
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response saveUser(User u) {
         if(u.getLogin() == null || "".equals(u.getLogin())){

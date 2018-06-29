@@ -9,7 +9,7 @@ public class User {
     private Long id;
 
     @Column
-    protected String name;
+    private String name;
 
     @Column(unique = true)
     private String login;
