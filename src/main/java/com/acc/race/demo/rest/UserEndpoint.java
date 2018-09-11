@@ -50,6 +50,7 @@ public class UserEndpoint {
             return Response.status(Response.Status.BAD_REQUEST).entity("Login juz istnieje").build();
         }
         userRepo.saveUser(u);
+        System.out.println("User registered:"+u.getLogin());
         return Response.ok().build();
     }
 }

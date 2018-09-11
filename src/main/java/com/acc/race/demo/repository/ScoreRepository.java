@@ -27,4 +27,10 @@ public class ScoreRepository {
        Query q =  em.createQuery("from Score");
        return q.getResultList();
     }
+
+    public List<Score> findByCar(Long car) {
+        Query q = em.createQuery("from Score where car.id = :car")
+                .setParameter("car", car);
+        return q.getResultList();
+    }
 }

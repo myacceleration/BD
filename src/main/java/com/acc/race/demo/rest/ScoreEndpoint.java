@@ -34,7 +34,6 @@ public class ScoreEndpoint {
     @Produces("application/json")
     public List<Score> getScoresByCar(@PathParam("carId")Long carId) {
         System.out.println("Car id: "+carId);
-        // TODO skonczyć
-        return scoreRepo.findAll();
+        return scoreRepo.findByCar(carId);
     }
 }
