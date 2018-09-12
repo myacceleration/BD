@@ -1,5 +1,7 @@
 package com.acc.race.demo.model;
 
+import com.acc.race.demo.Utils;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -7,7 +9,7 @@ import java.util.Date;
 public class Score {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column
     private Date date;
@@ -23,11 +25,11 @@ public class Score {
     @JoinColumn
     private Car car;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -61,5 +63,20 @@ public class Score {
 
     public void setValue(Float value) {
         this.value = value;
+    }
+
+    public ScoreDto transform(){
+        ScoreDto result = new ScoreDto();
+        result.setDate(this.getDate());
+        result.setId(this.getId());
+        result.setValue(this.getValue());
+        if(this.getCar() != null) {
+            result.setCarId(this.getCar().getId());
+        }
+        if(this.getUser() != null) {
+            result.setUserId(this.getUser().getId());
+            result.setUsername(Utils.empty(this.getUser().getName()) ? this.getUser().getLogin() : this.getUser().getName());
+        }
+        return result;
     }
 }
