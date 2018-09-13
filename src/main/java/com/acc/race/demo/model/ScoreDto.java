@@ -59,4 +59,9 @@ public class ScoreDto {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @Override
+    public String toString() {
+        return "val:"+value+"; userId:"+userId+"; carId:"+carId;
+    }
 }

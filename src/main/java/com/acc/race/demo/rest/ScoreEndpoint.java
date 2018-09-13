@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -30,12 +32,13 @@ public class ScoreEndpoint {
         return result;
     }
 
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void savScore(ScoreDto s) {
+    public Response saveScore(ScoreDto s) {
+        System.out.println("Próba zapisu -- "+s);
         Score score = new Score();
         score.setValue(s.getValue());
-        score.setDate(s.getDate());
+        score.setDate(new Date());
 
         Car c = new Car();
         c.setId(s.getCarId());
@@ -45,6 +48,8 @@ public class ScoreEndpoint {
         u.setId(s.getUserId());
         score.setUser(u);
         scoreRepo.saveScore(score);
+        System.out.println("Wynik zapisany");
+        return Response.ok().build();
     }
 
     @GET
